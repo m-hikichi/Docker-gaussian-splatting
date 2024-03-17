@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  dev:
+    build:
+      context: ../Dockerfile
+      dockerfile: Dockerfile
+    image: 3dgs
+    container_name: 3dgs
+    volumes:
+      - ../datasets:/workspace/gaussian-splatting/datasets
+      - ../output:/workspace/gaussian-splatting/output
+    working_dir: /workspace/gaussian-splatting
+    tty: true
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
