@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  dev:
+  gaussian-splatting:
     build:
-      context: ../Dockerfile
+      context: ../Dockerfile/gaussian-splatting
       dockerfile: Dockerfile
     image: 3dgs
     container_name: 3dgs
@@ -12,7 +12,6 @@ services:
       - ../output:/workspace/gaussian-splatting/output
     working_dir: /workspace/gaussian-splatting
     tty: true
-
     deploy:
       resources:
         reservations:
@@ -20,3 +19,14 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  super-splat:
+    build:
+      context: ../Dockerfile/super-splat
+      dockerfile: Dockerfile
+    image: super-splat:0.14.0
+    container_name: super-splat
+    working_dir: /workspace/super-splat
+    tty: true
+    ports:
+      - 3000:3000
