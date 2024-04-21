@@ -1,3 +1,67 @@
+# 環境構築手順
+
+## 初回時のみ
+
+### リポジトリのクローン
+
+リポジトリをローカルにクローンします。
+```bash
+git clone https://github.com/m-hikichi/Docker-gaussian-splatting.git
+```
+
+### Dockerイメージのビルド
+
+`docker-compose`ディレクトリに移動します。
+```bash
+cd docker-compose
+```
+
+Dockerイメージをビルドします。
+```bash
+docker-compose build
+```
+
+## コンテナ起動時
+
+### Dockerコンテナの起動
+
+Dockerコンテナをバックグラウンドで起動します。
+```bash
+docker-compose up -d
+```
+
+次に、`gaussian-splatting`という名前のDockerコンテナに接続します。
+```bash
+docker-compose exec gaussian-splatting bash
+```
+
+### COLMAPのビルドとインストール
+
+COLMAPのビルドディレクトリに移動します。
+```bash
+cd /workspace/colmap/build
+```
+次に、CMakeを使ってビルドファイルを生成し、Ninjaを使ってビルドとインストールを行います。
+```bash
+cmake .. -GNinja
+ninja
+ninja install
+```
+
+### Pythonパッケージのインストール
+
+必要なPythonパッケージをインストールします。まず、`diff-gaussian-rasterization`パッケージをインストールします。
+```bash
+cd /workspace/gaussian-splatting/submodules/diff-gaussian-rasterization
+python setup.py install
+```
+
+次に、`simple-knn`パッケージをインストールします。
+```bash
+cd /workspace/gaussian-splatting/submodules/simple-knn
+python setup.py install
+```
+
 # 独自のデータで gaussian-splatting を行う
 
 ## データセットの作成
@@ -72,4 +136,5 @@ python train.py -s <path to COLMAP or NeRF Synthetic dataset>
 <br>
 
 # 参考文献
+- [COLMAP](https://colmap.github.io/install.html)
 - [gaussian-splatting](https://github.com/graphdeco-inria/gaussian-splatting)
