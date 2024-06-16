@@ -24,7 +24,7 @@ services:
     build:
       context: ../Dockerfile/super-splat
       dockerfile: Dockerfile
-    image: super-splat:0.14.0
+    image: super-splat:0.19.2
     container_name: super-splat
     working_dir: /workspace/super-splat
     tty: true
