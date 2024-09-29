@@ -30,3 +30,23 @@ services:
     tty: true
     ports:
       - 3000:3000
+
+  nerfstudio:
+    build:
+      context: ../Dockerfile/nerfstudio
+      dockerfile: Dockerfile
+    image: nerfstudio:gaussian-splatting
+    container_name: nerfstudio
+    working_dir: /workspace/nerfstudio
+    volumes:
+      - ../output:/workspace/output
+    tty: true
+    ports:
+      - 7007:7007
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
